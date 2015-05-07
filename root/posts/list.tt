@@ -1,0 +1,51 @@
+<p>
+    [%
+       # This code illustrates how certain parts of the TT
+       # template will only be shown to users who have logged in
+    %]
+    [% IF c.user_exists %]
+        Please Note: You are already logged in as '[% c.user.name %]'.
+        You can <a href="[% c.uri_for('/logout') %]">logout</a> here.
+    [% ELSE %]
+        You need to log in to use this application.
+    [% END %]
+    [%#
+       Note that this whole block is a comment because the "#" appears
+       immediate after the "[%" (with no spaces in between).  Although it
+       can be a handy way to temporarily "comment out" a whole block of
+       TT code, it's probably a little too subtle for use in "normal"
+       comments.
+    %]
+    </p>
+
+[% # This is a TT comment. -%]
+[%- # Provide a title -%]
+[% META title = 'Users List' -%]
+[% # Note That the '-' at the beginning or end of TT code -%]
+[% # "chomps" the whitespace/newline at that end of the
+-%]
+[% # output (use View Source in browser to see the effect) -%]
+[% # Some basic HTML with a loop to display users -%]
+<table border="1">
+<tr><th>Id</th><th>Title</th><th>Actions</th></tr>
+[% # Display each user in a table row %]
+[% FOREACH user IN users -%]
+<tr>
+<td>[% user.id %]</td>
+<td>[% user.title %]</td>
+<td>[% user.text %]</td>
+<td>
+	  [% # Add a link to delete a book %]
+	  <a href="[%
+	    c.uri_for(c.controller.action_for('delete'), [user.id]) %]">Delete</a>
+</td>
+<td>
+	  [% # Add a link to delete a book %]
+	  <a href="[%
+	    c.uri_for(  c.controller.action_for('show')) %]/id/[%user.id%]/show">Show</a>
+</td>
+
+</tr>
+[% END -%]
+</table>
+<a href="[% c.uri_for('create') %]">Create</a>

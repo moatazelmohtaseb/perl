@@ -1,0 +1,37 @@
+<p>
+    [%
+       # This code illustrates how certain parts of the TT
+       # template will only be shown to users who have logged in
+    %]
+    [% IF c.user_exists %]
+        Please Note: You are already logged in as '[% c.user.name %]'.
+        You can <a href="[% c.uri_for('/logout') %]">logout</a> here.
+    [% ELSE %]
+        You need to log in to use this application.
+    [% END %]
+    [%#
+       Note that this whole block is a comment because the "#" appears
+       immediate after the "[%" (with no spaces in between).  Although it
+       can be a handy way to temporarily "comment out" a whole block of
+       TT code, it's probably a little too subtle for use in "normal"
+       comments.
+    %]
+    </p>
+
+<p>
+[% META title = 'User Added' -%]
+<td>[% user.id %]</td><br>
+<td>[% user.title %]</td><br>
+<td>[% user.text %]</td>
+
+[% FOREACH comment IN comments -%]
+<h3>[% comment.user_name %] :</h3>
+<h4>[% comment.text %] </h4>
+[% END -%]
+
+
+<form method="post" action="[% c.uri_for('id',user.id)%]/comment">
+<td>comment :</td><td><input type="text" name="text"></td>
+<hidden name="intent" value="[% c.user.name %]">
+<hidden name="name" value="sad">
+<input type="submit" name="Submit" value="Submit">
